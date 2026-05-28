@@ -1,6 +1,6 @@
 'use client';
 
-import React, { forwardRef, useId } from 'react';
+import React, { forwardRef, useId, useState } from 'react';
 import './TextArea.css';
 
 export interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -42,6 +42,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       value,
       defaultValue,
       onChange,
+      onBlur,
       ...nativeProps
     },
     ref
@@ -50,19 +51,32 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
     const id = externalId ?? autoId;
     const helperId = `${id}-helper`;
 
-    const hasError   = !!errorText;
-    const hasWarning = !!warningText && !hasError;
-    const feedbackText = errorText ?? warningText ?? helperText;
-    const feedbackType = hasError ? 'error' : hasWarning ? 'warning' : 'helper';
+    const [internalValue, setInternalValue] = useState(defaultValue ?? '');
+    const [touched, setTouched] = useState(false);
 
-    const [internalValue, setInternalValue] = React.useState(defaultValue ?? '');
     const isControlled = value !== undefined;
     const currentValue = isControlled ? value : internalValue;
     const charCount = String(currentValue ?? '').length;
 
+    // Required validation fires on blur — external errorText always takes priority
+    const requiredError = required && touched && !String(currentValue ?? '').trim()
+      ? 'This field is required.'
+      : undefined;
+
+    const hasError   = !!(errorText ?? requiredError);
+    const hasWarning = !!warningText && !hasError;
+    const activeError  = errorText ?? requiredError;
+    const feedbackText = activeError ?? warningText ?? helperText;
+    const feedbackType = hasError ? 'error' : hasWarning ? 'warning' : 'helper';
+
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       if (!isControlled) setInternalValue(e.target.value);
       onChange?.(e);
+    };
+
+    const handleBlur = (e: React.FocusEvent<HTMLTextAreaElement>) => {
+      setTouched(true);
+      onBlur?.(e);
     };
 
     const wrapperClasses = [
@@ -107,6 +121,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             aria-required={required || undefined}
             aria-describedby={feedbackText ? helperId : undefined}
             onChange={handleChange}
+            onBlur={handleBlur}
             {...nativeProps}
           />
         </div>

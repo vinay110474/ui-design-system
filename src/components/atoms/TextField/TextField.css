@@ -1,0 +1,210 @@
+@import '../../../tokens/tokens.css';
+
+/* ============================================================
+   TEXTFIELD WRAPPER
+   ============================================================ */
+.textfield-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  width: 100%;
+}
+
+/* ============================================================
+   LABEL
+   ============================================================ */
+.textfield__label {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-secondary-700);
+  line-height: var(--line-height-base);
+}
+
+.textfield-wrapper--disabled .textfield__label {
+  opacity: 0.5;
+}
+
+.textfield__required {
+  color: var(--color-danger-500);
+  margin-left: 2px;
+}
+
+/* ============================================================
+   INPUT WRAPPER — holds input + icons together
+   ============================================================ */
+.textfield__input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: var(--color-white);
+  border: var(--border-width) solid var(--color-secondary-400);
+  border-radius: var(--radius-md);
+  transition:
+    border-color var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+.textfield__input-wrapper:hover:not(.textfield__input-wrapper--disabled) {
+  border-color: var(--color-secondary-500);
+}
+
+/* Focus-within — highlights the whole wrapper when input is focused */
+.textfield__input-wrapper:focus-within {
+  border-color: var(--color-primary-500);
+  box-shadow: 0 0 0 var(--focus-ring-width) var(--focus-ring-color-primary);
+}
+
+/* Error */
+.textfield__input-wrapper--error {
+  border-color: var(--color-danger-500);
+}
+.textfield__input-wrapper--error:focus-within {
+  border-color: var(--color-danger-500);
+  box-shadow: 0 0 0 var(--focus-ring-width) var(--focus-ring-color-danger);
+}
+
+/* Warning */
+.textfield__input-wrapper--warning {
+  border-color: var(--color-warning-500);
+}
+.textfield__input-wrapper--warning:focus-within {
+  border-color: var(--color-warning-500);
+  box-shadow: 0 0 0 var(--focus-ring-width) rgba(245, 158, 11, 0.4);
+}
+
+/* Disabled */
+.textfield__input-wrapper--disabled {
+  background-color: var(--color-secondary-100);
+  border-color: var(--color-secondary-100);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ============================================================
+   INPUT — Base
+   ============================================================ */
+.textfield__input {
+  flex: 1;
+  width: 100%;
+  height: 40px;
+  padding: 0 var(--space-4);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-black);
+  background-color: transparent;
+  border: none;
+  outline: none;
+  line-height: var(--line-height-base);
+  -webkit-font-smoothing: antialiased;
+}
+
+.textfield__input::placeholder {
+  color: var(--color-secondary-400);
+  font-weight: var(--font-weight-medium);
+}
+
+.textfield__input:disabled {
+  cursor: not-allowed;
+  color: var(--color-secondary-400);
+}
+
+/* Shift padding to make room for icons */
+.textfield__input--leading  { padding-left: 40px; }
+.textfield__input--trailing { padding-right: 40px; }
+
+/* Remove browser default styles for number/search inputs */
+.textfield__input[type='number']::-webkit-inner-spin-button,
+.textfield__input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.textfield__input[type='search']::-webkit-search-decoration,
+.textfield__input[type='search']::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+/* ============================================================
+   ICONS
+   ============================================================ */
+.textfield__icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  color: var(--color-secondary-400);
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.textfield__icon svg,
+.textfield__icon img {
+  width: 18px;
+  height: 18px;
+}
+
+.textfield__icon--leading  { left: 0; }
+.textfield__icon--trailing { right: 0; }
+
+/* Password toggle — interactive, so pointer-events enabled */
+.textfield__password-toggle {
+  pointer-events: all;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--color-secondary-400);
+  transition: color var(--transition-fast);
+  border-radius: var(--radius-sm);
+}
+
+.textfield__password-toggle:hover:not(:disabled) {
+  color: var(--color-secondary-600);
+}
+
+.textfield__password-toggle:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color-primary);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* ============================================================
+   FOOTER — helper text + character count
+   ============================================================ */
+.textfield__footer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+  min-height: 18px;
+}
+
+.textfield__helper {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-base);
+  flex: 1;
+}
+
+.textfield__helper--helper  { color: var(--color-secondary-500); }
+.textfield__helper--error   { color: var(--color-danger-600); }
+.textfield__helper--warning { color: var(--color-warning-500); }
+
+.textfield__count {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-secondary-400);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.textfield__count--limit {
+  color: var(--color-danger-500);
+  font-weight: var(--font-weight-semibold);
+}
