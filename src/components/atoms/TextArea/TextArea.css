@@ -1,0 +1,146 @@
+@import '../../../tokens/tokens.css';
+
+/* ============================================================
+   TEXTAREA WRAPPER
+   ============================================================ */
+.textarea-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  width: 100%;
+}
+
+/* ============================================================
+   LABEL
+   ============================================================ */
+.textarea__label {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-secondary-700);
+  line-height: var(--line-height-base);
+}
+
+.textarea-wrapper--disabled .textarea__label {
+  opacity: 0.5;
+}
+
+.textarea__required {
+  color: var(--color-danger-500);
+  margin-left: 2px;
+}
+
+/* ============================================================
+   FIELD WRAPPER
+   ============================================================ */
+.textarea__field-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* ============================================================
+   TEXTAREA — Base
+   ============================================================ */
+.textarea {
+  width: 100%;
+  min-height: 96px;
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-base);
+  color: var(--color-black);
+  background-color: var(--color-white);
+  border: var(--border-width) solid var(--color-secondary-400);
+  border-radius: var(--radius-md);
+  box-sizing: border-box;
+  outline: none;
+  transition:
+    border-color var(--transition-base),
+    box-shadow var(--transition-base);
+  -webkit-font-smoothing: antialiased;
+}
+
+.textarea::placeholder {
+  color: var(--color-secondary-400);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Focus */
+.textarea:focus {
+  border-color: var(--color-primary-500);
+  box-shadow: 0 0 0 var(--focus-ring-width) var(--focus-ring-color-primary);
+}
+
+/* Hover */
+.textarea:hover:not(:focus):not(:disabled) {
+  border-color: var(--color-secondary-500);
+}
+
+/* Disabled */
+.textarea:disabled {
+  background-color: var(--color-secondary-100);
+  border-color: var(--color-secondary-100);
+  color: var(--color-secondary-400);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ============================================================
+   TEXTAREA — Error state
+   ============================================================ */
+.textarea--error {
+  border-color: var(--color-danger-500);
+}
+.textarea--error:focus {
+  border-color: var(--color-danger-500);
+  box-shadow: 0 0 0 var(--focus-ring-width) var(--focus-ring-color-danger);
+}
+
+/* ============================================================
+   TEXTAREA — Warning state
+   ============================================================ */
+.textarea--warning {
+  border-color: var(--color-warning-500);
+}
+.textarea--warning:focus {
+  border-color: var(--color-warning-500);
+  box-shadow: 0 0 0 var(--focus-ring-width) rgba(245, 158, 11, 0.4);
+}
+
+/* ============================================================
+   FOOTER — helper text + character count
+   ============================================================ */
+.textarea__footer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+  min-height: 18px;
+}
+
+.textarea__helper {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-base);
+  flex: 1;
+}
+
+.textarea__helper--helper  { color: var(--color-secondary-500); }
+.textarea__helper--error   { color: var(--color-danger-600); }
+.textarea__helper--warning { color: var(--color-warning-500); }
+
+.textarea__count {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-secondary-400);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.textarea__count--limit {
+  color: var(--color-danger-500);
+  font-weight: var(--font-weight-semibold);
+}
